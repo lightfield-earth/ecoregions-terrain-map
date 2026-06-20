@@ -1,8 +1,8 @@
 # ecoregions-terrain-map
 
 An interactive map of the **U.S. EPA Level III ecoregions**, colored by Level I
-family, over a shaded-relief terrain basemap. Hover (or tap) any region to see
-its Level III and Level I names.
+family, over a shaded-relief terrain basemap. Hover over (or tap) any region to
+see its Level III and Level I names.
 
 **Live map: https://ecoregions.lightfield.earth**
 
