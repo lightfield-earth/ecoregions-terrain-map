@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>EPA Ecoregions of the Conterminous United States</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;1,400&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --cream: #eceae4; --ink: #2c2a26; --hairline: rgba(0,0,0,.10); --shadow: 0 1px 6px rgba(0,0,0,.14); }
+    body { margin: 0; font-family: "Open Sans", system-ui, sans-serif; color: var(--ink); }
+    #map { position: absolute; inset: 0; }
+
+    /* shared cream panel — hairline + soft shadow so it separates from the cream MAP */
+    .panel { background: var(--cream); border: 1px solid var(--hairline);
+             box-shadow: var(--shadow); border-radius: 8px; }
+    .panel-pad { padding: 10px 12px; }
+
+    /* legend + hover info stacked in one left column, matching width */
+    #left-col { position: absolute; z-index: 1; top: 10px; left: 10px; width: 232px;
+                display: flex; flex-direction: column; gap: 10px; }
+    #legend h2 { margin: 0 0 7px; font-family: "Lato", sans-serif; font-weight: 700; font-size: 14px; }
+    #legend .sub { font-size: 11px; color: #6b685f; margin: -4px 0 8px; }
+    #legend .row { display: flex; align-items: center; gap: 7px; margin: 2px 0; font-size: 12.5px; }
+    #legend i { width: 13px; height: 13px; border-radius: 2px; border: 1px solid rgba(0,0,0,.18); flex: none; }
+
+    /* fixed height so the box never changes shape as region names vary in length */
+    #info { height: 76px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; }
+    #info .region { font-weight: 600; font-size: 13.5px; line-height: 1.25;
+                    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    #info .family { font-size: 12px; color: #5c5a52; margin-top: 2px; }
+    #info .idle { font-size: 12px; color: #8a877d; font-style: italic; }
+
+    #logo { position: absolute; z-index: 1; bottom: 34px; left: 10px; padding: 10px 12px; }
+    #logo img { display: block; height: 42px; width: auto; }
+
+    /* cream-ify the MapLibre controls so they don't out-shout the map */
+    .maplibregl-ctrl-group { background: var(--cream) !important; border: 1px solid var(--hairline) !important; box-shadow: var(--shadow) !important; }
+    .maplibregl-ctrl-group button + button { border-top: 1px solid var(--hairline); }
+    .maplibregl-ctrl-scale { background: rgba(236,234,228,.85); border: 1px solid var(--hairline); border-top: none;
+                             color: var(--ink); font-family: "Open Sans", sans-serif; }
+    .maplibregl-ctrl.maplibregl-ctrl-attrib { background: rgba(236,234,228,.82) !important; font-family: "Open Sans", sans-serif; }
+    .maplibregl-ctrl-attrib a { color: #6b685f; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <div id="left-col">
+    <div id="legend" class="panel panel-pad">
+      <h2>Ecoregions</h2>
+      <div class="sub">U.S. EPA Level III, colored by Level I</div>
+      <div id="legend-rows"></div>
+    </div>
+    <div id="info" class="panel panel-pad">
+      <div class="idle">Hover over or tap a region to see the Level III and Level I ecoregion names.</div>
+    </div>
+  </div>
+
+  <div id="logo" class="panel"><img src="./lightfield-logo.png" alt="LightField" /></div>
+
+  <script>
+  // The cartography lives in style.json (built by build_style.mjs). This shell only loads it
+  // and adds the chrome (controls, legend, hover info, logo, attribution).
+  Promise.all([
+    fetch("./style.json").then(r => r.json()),
+    fetch("./palette_level1.json").then(r => r.json()),
+  ]).then(([style, palette]) => {
+
+    document.getElementById("legend-rows").innerHTML =
+      Object.values(palette).map(({ name, color }) => `<div class="row"><i style="background:${color}"></i>${name}</div>`).join("");
+
+    const map = new maplibregl.Map({
+      container: "map", style, center: [-98.58, 39.83], zoom: 3.5, minZoom: 2, maxZoom: 16,
+      hash: true, attributionControl: false,
+    });
+
+    map.addControl(new maplibregl.GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: true }), "top-right");
+    map.addControl(new maplibregl.NavigationControl({ showZoom: true, showCompass: true }), "top-right");
+    map.addControl(new maplibregl.FullscreenControl(), "top-right");
+    map.addControl(new maplibregl.ScaleControl({ maxWidth: 110, unit: "metric" }), "bottom-left");
+    map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
+
+    // hover info: region name + Level I family (no swatch)
+    const info = document.getElementById("info");
+    const idle = '<div class="idle">Hover over or tap a region to see the Level III and Level I ecoregion names.</div>';
+    const showInfo = (p) => {
+      const fam = palette[p.NA_L1CODE]?.name ?? p.NA_L1NAME;
+      info.innerHTML = `<div class="region">${p.US_L3NAME}</div><div class="family">${fam}</div>`;
+    };
+    map.on("mousemove", "ecoregion-fill", (e) => showInfo(e.features[0].properties)); // desktop hover
+    map.on("click",     "ecoregion-fill", (e) => showInfo(e.features[0].properties)); // touch / tap
+    map.on("mouseleave", "ecoregion-fill", () => { info.innerHTML = idle; });
+  });
+  </script>
+</body>
+</html>

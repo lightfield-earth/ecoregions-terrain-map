@@ -1,0 +1,12 @@
+{
+  "5":  { "name": "Northern Forests",             "color": "#5b8a72" },
+  "6":  { "name": "NW Forested Mountains",        "color": "#7fa66a" },
+  "7":  { "name": "Marine West Coast Forest",     "color": "#6a9fb0" },
+  "8":  { "name": "Eastern Temperate Forests",    "color": "#9bb56b" },
+  "9":  { "name": "Great Plains",                 "color": "#d9c06b" },
+  "10": { "name": "North American Deserts",       "color": "#d0a878" },
+  "11": { "name": "Mediterranean California",     "color": "#c07f7a" },
+  "12": { "name": "Southern Semi-Arid Highlands", "color": "#cf8a52" },
+  "13": { "name": "Temperate Sierras",            "color": "#9b7aa3" },
+  "15": { "name": "Tropical Wet Forests",         "color": "#4fa890" }
+}
