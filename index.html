@@ -83,6 +83,8 @@
     map.addControl(new maplibregl.FullscreenControl(), "top-right");
     map.addControl(new maplibregl.ScaleControl({ maxWidth: 110, unit: "metric" }), "bottom-left");
     map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
+    // attribution starts collapsed (just the ℹ button); expands on click
+    map.on("load", () => document.querySelector(".maplibregl-ctrl-attrib")?.classList.remove("maplibregl-compact-show"));
 
     // hover info: region name + Level I family (no swatch)
     const info = document.getElementById("info");
