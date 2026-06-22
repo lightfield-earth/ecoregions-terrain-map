@@ -12,6 +12,8 @@
   <style>
     :root { --cream: #eceae4; --ink: #2c2a26; --hairline: rgba(0,0,0,.10); --shadow: 0 1px 6px rgba(0,0,0,.14); }
     body { margin: 0; font-family: "Open Sans", system-ui, sans-serif; color: var(--ink); }
+    /* wrapper is what goes fullscreen, so the legend/info/logo overlays come along */
+    #map-wrap { position: absolute; inset: 0; background: var(--cream); }
     #map { position: absolute; inset: 0; }
 
     /* shared cream panel — hairline + soft shadow so it separates from the cream MAP */
@@ -21,7 +23,9 @@
 
     /* legend + hover info stacked in one left column, matching width */
     #left-col { position: absolute; z-index: 1; top: 10px; left: 10px; width: 232px;
-                display: flex; flex-direction: column; gap: 10px; }
+                display: flex; flex-direction: column; gap: 10px;
+                transition: opacity .18s ease, transform .18s ease; }
+    #left-col.hidden { opacity: 0; transform: translateX(-8px); pointer-events: none; }
     #legend h2 { margin: 0 0 7px; font-family: "Lato", sans-serif; font-weight: 700; font-size: 14px; }
     #legend .sub { font-size: 11px; color: #6b685f; margin: -4px 0 8px; }
     #legend .row { display: flex; align-items: center; gap: 7px; margin: 2px 0; font-size: 12.5px; }
@@ -44,9 +48,13 @@
                              color: var(--ink); font-family: "Open Sans", sans-serif; }
     .maplibregl-ctrl.maplibregl-ctrl-attrib { background: rgba(236,234,228,.82) !important; font-family: "Open Sans", sans-serif; }
     .maplibregl-ctrl-attrib a { color: #6b685f; }
+    /* show/hide-panels button in the control stack; dims when panels are off */
+    .toggle-panels-btn { display: flex; align-items: center; justify-content: center; font-size: 15px; color: var(--ink); }
+    .toggle-panels-btn.is-off { color: #a09d93; }
   </style>
 </head>
 <body>
+  <div id="map-wrap">
   <div id="map"></div>
 
   <div id="left-col">
@@ -61,6 +69,7 @@
   </div>
 
   <div id="logo" class="panel"><img src="./lightfield-logo.png" alt="LightField" /></div>
+  </div>
 
   <script>
   // The cartography lives in style.json (built by build_style.mjs). This shell only loads it
@@ -80,7 +89,27 @@
 
     map.addControl(new maplibregl.GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: true }), "top-right");
     map.addControl(new maplibregl.NavigationControl({ showZoom: true, showCompass: true }), "top-right");
-    map.addControl(new maplibregl.FullscreenControl(), "top-right");
+    map.addControl(new maplibregl.FullscreenControl({ container: document.getElementById("map-wrap") }), "top-right");
+
+    // toggle the legend / hover-info column on and off (it overlays the map, so this just reveals more map)
+    class TogglePanelsControl {
+      onAdd() {
+        const wrap = document.createElement("div");
+        wrap.className = "maplibregl-ctrl maplibregl-ctrl-group";
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "toggle-panels-btn";
+        btn.title = "Show/hide info panels";
+        btn.setAttribute("aria-label", "Show or hide info panels");
+        btn.innerHTML = "☰";
+        btn.onclick = () => btn.classList.toggle("is-off", document.getElementById("left-col").classList.toggle("hidden"));
+        wrap.appendChild(btn);
+        return wrap;
+      }
+      onRemove() {}
+    }
+    map.addControl(new TogglePanelsControl(), "top-right");
+
     map.addControl(new maplibregl.ScaleControl({ maxWidth: 110, unit: "metric" }), "bottom-left");
     map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
     // attribution starts collapsed (just the ℹ button); expands on click
