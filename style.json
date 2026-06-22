@@ -182,7 +182,7 @@
       "metadata": {},
       "source": "openmaptiles",
       "source-layer": "landuse",
-      "minzoom": 7,
+      "minzoom": 8,
       "filter": [
         "all",
         [
@@ -197,11 +197,23 @@
         ]
       ],
       "layout": {
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "fill-color": "hsl(0, 75%, 95%)",
-        "fill-opacity": 1
+        "fill-color": "hsl(0, 55%, 68%)",
+        "fill-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
+          9,
+          0,
+          10.5,
+          0.13
+        ]
       }
     },
     {
@@ -440,14 +452,14 @@
       "metadata": {},
       "source": "openmaptiles",
       "source-layer": "aeroway",
-      "minzoom": 11,
+      "minzoom": 10,
       "filter": [
         "==",
         "$type",
         "Polygon"
       ],
       "layout": {
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "fill-color": {
@@ -462,7 +474,19 @@
             ]
           ]
         },
-        "fill-opacity": 1
+        "fill-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
+          10,
+          0,
+          10.8,
+          1
+        ]
       }
     },
     {
@@ -1866,7 +1890,7 @@
       "metadata": {},
       "source": "openmaptiles",
       "source-layer": "aeroway",
-      "minzoom": 11,
+      "minzoom": 10,
       "filter": [
         "all",
         [
@@ -1881,7 +1905,7 @@
         ]
       ],
       "layout": {
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": "hsl(234, 25%, 76%)",
@@ -1898,7 +1922,19 @@
             ]
           ]
         },
-        "line-opacity": 1
+        "line-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
+          10,
+          0,
+          10.8,
+          1
+        ]
       }
     },
     {
@@ -1907,7 +1943,7 @@
       "metadata": {},
       "source": "openmaptiles",
       "source-layer": "aeroway",
-      "minzoom": 11,
+      "minzoom": 10,
       "filter": [
         "all",
         [
@@ -1922,7 +1958,7 @@
         ]
       ],
       "layout": {
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": "hsl(234, 25%, 76%)",
@@ -1939,7 +1975,63 @@
             ]
           ]
         },
-        "line-opacity": 1
+        "line-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
+          10,
+          0,
+          10.8,
+          1
+        ]
+      }
+    },
+    {
+      "id": "Military boundary",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "landuse",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "==",
+          "class",
+          "military"
+        ]
+      ],
+      "paint": {
+        "line-color": "hsl(0, 60%, 48%)",
+        "line-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
+          9,
+          0,
+          10.5,
+          0.8
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
+          9,
+          0.6,
+          12,
+          1.8
+        ]
       }
     },
     {
@@ -14774,7 +14866,7 @@
             ]
           ]
         },
-        "visibility": "none",
+        "visibility": "visible",
         "text-anchor": "top",
         "text-offset": [
           0,
@@ -14841,7 +14933,7 @@
             "name"
           ]
         ],
-        "visibility": "none",
+        "visibility": "visible",
         "symbol-placement": "line"
       },
       "paint": {
@@ -14883,7 +14975,7 @@
           ]
         },
         "text-field": "{ref}",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "text-color": "hsl(0, 0%, 53%)",
