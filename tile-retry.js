@@ -3,15 +3,18 @@
 // MapLibre gives up on a tile after ONE failed request: the tile is marked errored and stays a hole
 // until it's evicted (pan/zoom away). This registers a custom protocol that MapLibre routes every
 // request through (tiles, TileJSON, glyphs, sprites) and retries transient failures — network
-// errors, stalls, 429 and 5xx — with short exponential backoff. The happy path is one plain fetch.
+// errors, stalls, 429 and 5xx — with short exponential backoff (capped at 8 s), for as long as
+// MapLibre still wants the resource: it aborts requests for tiles that leave the view, which ends
+// the retries. So a tile on screen never settles into a hole, and an outage heals by itself once
+// the server is back. The happy path is one plain fetch.
 //
 //   <script src="./tile-retry.js"></script>
 //   style = TileRetry.wrapStyle(style);   // before new maplibregl.Map({ style })
 (function () {
   const SCHEME = "lfretry";               // lfretry://host/path  ->  https://host/path
-  const MAX_ATTEMPTS = 6;                 // first try + 5 retries
-  const BACKOFF_MS = [250, 500, 1000, 2000, 4000];   // + up to 30% jitter; ~8 s of waiting in all
+  const BACKOFF_MS = [250, 500, 1000, 2000, 4000, 8000];   // + up to 30% jitter; then every ~8 s
   const ATTEMPT_TIMEOUT_MS = 12000;       // a stalled connection is abandoned and retried
+  const WARN_AFTER = 6;                   // attempts before logging that a resource is struggling
   const RETRY_STATUS = new Set([408, 425, 429, 500, 502, 503, 504, 520, 521, 522, 523, 524]);
 
   const toHttps = (url) => "https://" + url.slice(SCHEME.length + 3);
@@ -63,7 +66,8 @@
         return out;
       } catch (err) {
         if (signal.aborted || err.message === "AbortError") throw abortError();
-        if (attempt >= MAX_ATTEMPTS || !retryable(err)) throw err;
+        if (!retryable(err)) throw err;                  // 404 (no tile here), 403, ...: final
+        if (attempt === WARN_AFTER) console.warn(`[tile-retry] still retrying after ${attempt} attempts: ${url}`, err);
         const base = BACKOFF_MS[Math.min(attempt - 1, BACKOFF_MS.length - 1)];
         await sleep(base * (1 + 0.3 * Math.random()), signal);
       }
