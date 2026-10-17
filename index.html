@@ -4,12 +4,19 @@
   <meta charset="utf-8" />
   <title>EPA Ecoregions of the Conterminous United States</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <link rel="icon" href="data:," /><!-- no favicon: skip the browser's /favicon.ico request (a 404 on every load) -->
+  <!-- start the style download and the tile/glyph connections while MapLibre itself loads -->
+  <link rel="preload" href="./style.json" as="fetch" crossorigin="anonymous" />
+  <link rel="preconnect" href="https://tiles.lightfield.earth" crossorigin="anonymous" />
+  <link rel="preconnect" href="https://lightfield-earth.github.io" crossorigin="anonymous" />
+  <!-- MapLibre is self-hosted (identical to the npm 4.7.1 dist) so the map never depends on a third-party CDN -->
+  <script src="./vendor/maplibre-gl-4.7.1/maplibre-gl.js"></script>
   <script src="./tile-retry.js"></script>
-  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <link href="./vendor/maplibre-gl-4.7.1/maplibre-gl.css" rel="stylesheet" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;1,400&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- panel fonts load without blocking: a render-blocking stylesheet would also hold up the map script -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;1,400&family=Lato:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <style>
     :root { --cream: #eceae4; --ink: #2c2a26; --hairline: rgba(0,0,0,.10); --shadow: 0 1px 6px rgba(0,0,0,.14); }
     body { margin: 0; font-family: "Open Sans", system-ui, sans-serif; color: var(--ink); }
@@ -83,6 +90,7 @@
     document.getElementById("legend-rows").innerHTML =
       Object.values(palette).map(({ name, color }) => `<div class="row"><i style="background:${color}"></i>${name}</div>`).join("");
 
+    TileRetry.installInWorkers();   // vector tiles are fetched in MapLibre's workers: retry them there
     const map = new maplibregl.Map({
       // route every tile/glyph/sprite request through the retrying loader (see tile-retry.js)
       container: "map", style: TileRetry.wrapStyle(style), center: [-98.58, 39.83], zoom: 3.5, minZoom: 2, maxZoom: 16,
@@ -120,13 +128,16 @@
     // hover info: region name + Level I family (no swatch)
     const info = document.getElementById("info");
     const idle = '<div class="idle">Hover over or tap a region to see the Level III and Level I ecoregion names.</div>';
+    let shown = null;   // mousemove fires per pixel; only touch the DOM when the region changes
     const showInfo = (p) => {
+      if (p.US_L3NAME === shown) return;
+      shown = p.US_L3NAME;
       const fam = palette[p.NA_L1CODE]?.name ?? p.NA_L1NAME;
       info.innerHTML = `<div class="region">${p.US_L3NAME}</div><div class="family">${fam}</div>`;
     };
     map.on("mousemove", "ecoregion-fill", (e) => showInfo(e.features[0].properties)); // desktop hover
     map.on("click",     "ecoregion-fill", (e) => showInfo(e.features[0].properties)); // touch / tap
-    map.on("mouseleave", "ecoregion-fill", () => { info.innerHTML = idle; });
+    map.on("mouseleave", "ecoregion-fill", () => { shown = null; info.innerHTML = idle; });
   });
   </script>
 </body>
