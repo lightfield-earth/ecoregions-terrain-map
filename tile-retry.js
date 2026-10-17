@@ -9,11 +9,15 @@
 // the server is back. The happy path is one plain fetch.
 //
 //   <script src="./tile-retry.js"></script>
-//   style = TileRetry.wrapStyle(style);   // before new maplibregl.Map({ style })
+//   TileRetry.installInWorkers();          // before new maplibregl.Map(...)
+//   style = TileRetry.wrapStyle(style);
 (function () {
   const SCHEME = "lfretry";               // lfretry://host/path  ->  https://host/path
   const BACKOFF_MS = [250, 500, 1000, 2000, 4000, 8000];   // + up to 30% jitter; then every ~8 s
-  const ATTEMPT_TIMEOUT_MS = 12000;       // a stalled connection is abandoned and retried
+  // A *stalled* attempt (no response headers, or no body bytes, for this long) is abandoned and
+  // retried. Deliberately not a cap on total duration: on a slow link a big tile can take 20 s+
+  // while still progressing, and aborting it would just re-download it from zero.
+  const STALL_MS = 15000;
   const WARN_AFTER = 6;                   // attempts before logging that a resource is struggling
   const RETRY_STATUS = new Set([408, 425, 429, 500, 502, 503, 504, 520, 521, 522, 523, 524]);
 
@@ -30,20 +34,40 @@
     signal.addEventListener("abort", () => { clearTimeout(t); reject(abortError()); }, { once: true });
   });
 
+  // Read the body chunk by chunk so the stall timer can be reset whenever bytes arrive.
+  async function readBody(res, onProgress) {
+    if (!res.body) return new ArrayBuffer(0);
+    const reader = res.body.getReader(), chunks = [];
+    let size = 0;
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(value); size += value.byteLength; onProgress();
+    }
+    const out = new Uint8Array(size);
+    let at = 0;
+    for (const c of chunks) { out.set(c, at); at += c.byteLength; }
+    return out.buffer;
+  }
+
   async function fetchOnce(url, params, outer) {
-    const ctl = new AbortController();                  // aborts on MapLibre cancel OR attempt timeout
+    const ctl = new AbortController();                  // aborts on MapLibre cancel OR a stall
     const onAbort = () => ctl.abort();
     outer.addEventListener("abort", onAbort, { once: true });
-    const timer = setTimeout(() => ctl.abort(), ATTEMPT_TIMEOUT_MS);
+    let timer;
+    const progress = () => { clearTimeout(timer); timer = setTimeout(() => ctl.abort(), STALL_MS); };
+    progress();
     try {
       const res = await fetch(url, {
         method: params.method || "GET", headers: params.headers, body: params.body,
         credentials: params.credentials, cache: params.cache, signal: ctl.signal,
       });
+      progress();
       if (!res.ok) throw httpError(res);
-      const data = params.type === "json" ? await res.json()
-        : params.type === "string" ? await res.text()
-        : await res.arrayBuffer();                       // "arrayBuffer" and "image" (MapLibre decodes it)
+      const buf = await readBody(res, progress);
+      const data = params.type === "json" ? JSON.parse(new TextDecoder().decode(buf))
+        : params.type === "string" ? new TextDecoder().decode(buf)
+        : buf;                                           // "arrayBuffer" and "image" (MapLibre decodes it)
       return { data, cacheControl: res.headers.get("Cache-Control"), expires: res.headers.get("Expires") };
     } catch (err) {
       if (outer.aborted) throw abortError();             // MapLibre no longer needs it: stop, don't retry
@@ -74,7 +98,19 @@
     }
   }
 
-  maplibregl.addProtocol(SCHEME, load);
+  // Runs both on the page and inside MapLibre's web workers (see installInWorkers). The workers fetch
+  // the vector tiles; registering the protocol there keeps those fetches off the main thread
+  // (routing them through the page's handler instead cost ~8% load time on a slow link).
+  const inWorker = typeof window === "undefined";
+  (inWorker ? self.addProtocol : maplibregl.addProtocol)(SCHEME, load);
+  if (inWorker) return;
+
+  // Load this same script into MapLibre's workers. Call before creating the map. Workers run from a
+  // blob: URL, so they need this script's absolute URL — captured now, while it's still loading.
+  const scriptUrl = document.currentScript && document.currentScript.src;
+  function installInWorkers() {
+    if (scriptUrl) maplibregl.importScriptInWorkers(scriptUrl);
+  }
 
   // Point every https resource in a style at the retrying loader (style.json itself stays standard).
   function wrapStyle(style) {
@@ -89,5 +125,5 @@
     return s;
   }
 
-  window.TileRetry = { wrapStyle, SCHEME };
+  window.TileRetry = { wrapStyle, installInWorkers, SCHEME };
 })();
