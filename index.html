@@ -5,6 +5,7 @@
   <title>EPA Ecoregions of the Conterminous United States</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="./tile-retry.js"></script>
   <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -83,7 +84,8 @@
       Object.values(palette).map(({ name, color }) => `<div class="row"><i style="background:${color}"></i>${name}</div>`).join("");
 
     const map = new maplibregl.Map({
-      container: "map", style, center: [-98.58, 39.83], zoom: 3.5, minZoom: 2, maxZoom: 16,
+      // route every tile/glyph/sprite request through the retrying loader (see tile-retry.js)
+      container: "map", style: TileRetry.wrapStyle(style), center: [-98.58, 39.83], zoom: 3.5, minZoom: 2, maxZoom: 16,
       hash: true, attributionControl: false,
     });
 
