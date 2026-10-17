@@ -7482,6 +7482,12 @@
           "==",
           "$type",
           "LineString"
+        ],
+        [
+          "!in",
+          "name",
+          "Baie d'Hudson",
+          "Baie de Baffin"
         ]
       ],
       "layout": {
@@ -7535,6 +7541,12 @@
           "!=",
           "class",
           "ocean"
+        ],
+        [
+          "!in",
+          "name",
+          "Baie d'Hudson",
+          "Baie de Baffin"
         ]
       ],
       "layout": {

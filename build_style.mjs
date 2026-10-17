@@ -87,6 +87,11 @@ const withBridge = (l) => {
 const isAirport   = (l) => l["source-layer"] === "aeroway" || l["source-layer"] === "aerodrome_label";
 const scaleW = (w, f) => typeof w === "number" ? w * f
   : (w && Array.isArray(w.stops) ? { base: w.base ?? 1, stops: w.stops.map(([z, v]) => [z, v * f]) } : w);
+// Duplicate bay labels: besides one centered English-named point, the tiles carry dozens of coastal
+// fragments of Hudson Bay ("Baie d'Hudson", 31 points) and Baffin Bay ("Baie de Baffin", 10), each
+// with name:en set, so "Hudson Bay" was printed 8+ times. Verified across all z3 and z5 tiles: these
+// are the only heavy repeats worldwide. Drop the fragments by their (French) name.
+const DUPLICATE_WATER_NAMES = ["Baie d'Hudson", "Baie de Baffin"];
 const waterColor = (e) => `hsl(${208 - e*4}, 72%, ${78 - e*33}%)`;
 const isWhite = (s) => typeof s === "string" && (/hsl\([^)]*,\s*(?:99|100)%\s*\)/.test(s) || /^#fff(?:fff)?$/i.test(s) || s === "white");
 const deWhite = (c) => typeof c === "string" ? (isWhite(c) ? D.roadOffWhite : c)
@@ -167,6 +172,7 @@ for (const l0 of rest) {
     // its filter excludes oceans). Unify them to a legible deep navy; keep the shared warm
     // cream halo (set above) — a pure white halo glows on the blue water and reads worse.
     if (l["source-layer"] === "water_name") {
+      l.filter = [...l.filter, ["!in", "name", ...DUPLICATE_WATER_NAMES]];
       l.paint["text-color"] = D.waterText;
       // the base style sets point-lake labels in thin "Lato Light", which the halo washes out at
       // small sizes — use the heavier "Lato Regular" that the river/big-lake labels already use.
