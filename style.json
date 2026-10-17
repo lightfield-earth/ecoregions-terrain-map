@@ -9471,8 +9471,9 @@
         ]
       ],
       "layout": {
+        "line-cap": "butt",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": {
@@ -9491,12 +9492,24 @@
           "base": 1.2,
           "stops": [
             [
+              11,
+              1.5
+            ],
+            [
               12,
               4
             ],
             [
               14,
-              7
+              7.8
+            ],
+            [
+              16,
+              12
+            ],
+            [
+              17,
+              13
             ],
             [
               18,
@@ -9521,7 +9534,8 @@
           12.5,
           1
         ]
-      }
+      },
+      "minzoom": 11
     },
     {
       "id": "Service bridge outline",
@@ -9544,25 +9558,38 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(36, 5%, 80%)",
+        "line-color": "hsl(0, 0%, 73%)",
         "line-width": {
           "base": 1.2,
           "stops": [
             [
+              13,
+              2
+            ],
+            [
               15,
-              1
+              3.5
             ],
             [
               16,
-              4
+              7
             ],
             [
-              20,
+              17,
+              8.5
+            ],
+            [
+              18,
               11
+            ],
+            [
+              19,
+              12
             ]
           ]
         },
@@ -9579,7 +9606,8 @@
           12.5,
           1
         ]
-      }
+      },
+      "minzoom": 13
     },
     {
       "id": "Link bridge outline",
@@ -9663,29 +9691,38 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(36, 6%, 74%)",
+        "line-color": "hsl(0, 0%, 73%)",
         "line-width": {
           "base": 1.2,
           "stops": [
             [
-              12,
-              0.5
-            ],
-            [
               13,
-              1
+              3
             ],
             [
               14,
-              4
+              5
             ],
             [
-              20,
-              25
+              15,
+              6
+            ],
+            [
+              16,
+              12
+            ],
+            [
+              17,
+              13
+            ],
+            [
+              18,
+              17
             ]
           ]
         },
@@ -9702,7 +9739,8 @@
           12.5,
           1
         ]
-      }
+      },
+      "minzoom": 13
     },
     {
       "id": "Path bridge second outline",
@@ -9860,7 +9898,6 @@
       "metadata": {},
       "source": "openmaptiles",
       "source-layer": "transportation",
-      "minzoom": 12,
       "filter": [
         "all",
         [
@@ -9869,21 +9906,36 @@
           "bridge"
         ],
         [
-          "in",
+          "==",
           "class",
-          "secondary",
-          "tertiary"
+          "secondary"
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(0, 0%, 0%)",
+        "line-color": {
+          "stops": [
+            [
+              11,
+              "hsl(67, 67%, 41%)"
+            ],
+            [
+              12,
+              "hsl(67, 92%, 25%)"
+            ]
+          ]
+        },
         "line-width": {
           "base": 1.2,
           "stops": [
+            [
+              11,
+              3.5
+            ],
             [
               12,
               5
@@ -9927,7 +9979,8 @@
           12.5,
           1
         ]
-      }
+      },
+      "minzoom": 11
     },
     {
       "id": "Tertiary bridge outline",
@@ -9943,93 +9996,36 @@
           "bridge"
         ],
         [
-          "in",
+          "==",
           "class",
-          "secondary",
           "tertiary"
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(15, 6%, 75%)",
-        "line-width": {
-          "base": 1.2,
-          "stops": [
-            [
-              8,
-              1.5
-            ],
-            [
-              20,
-              17
-            ]
-          ]
-        },
-        "line-opacity": [
-          "interpolate",
-          [
-            "linear"
-          ],
-          [
-            "zoom"
-          ],
-          11.5,
-          0,
-          12.5,
-          1
-        ]
-      }
-    },
-    {
-      "id": "Trunk bridge outline",
-      "type": "line",
-      "metadata": {},
-      "source": "openmaptiles",
-      "source-layer": "transportation",
-      "minzoom": 11,
-      "filter": [
-        "all",
-        [
-          "==",
-          "brunnel",
-          "bridge"
-        ],
-        [
-          "in",
-          "class",
-          "trunk"
-        ]
-      ],
-      "layout": {
-        "line-join": "round",
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": {
-          "stops": [
-            [
-              11,
-              "hsl(13, 58%, 55%)"
-            ],
-            [
-              12,
-              "hsl(12, 62%, 48%)"
-            ]
-          ]
-        },
+        "line-color": "hsl(0, 0%, 56%)",
         "line-width": {
           "base": 1.2,
           "stops": [
             [
               11,
-              3.5
+              2.5
             ],
             [
               12,
-              6
+              4
+            ],
+            [
+              13,
+              5
+            ],
+            [
+              14,
+              9
             ],
             [
               15,
@@ -10062,15 +10058,15 @@
           12.5,
           1
         ]
-      }
+      },
+      "minzoom": 11
     },
     {
-      "id": "Primary bridge outline",
+      "id": "Trunk bridge outline",
       "type": "line",
       "metadata": {},
       "source": "openmaptiles",
       "source-layer": "transportation",
-      "minzoom": 12,
       "filter": [
         "all",
         [
@@ -10081,18 +10077,38 @@
         [
           "in",
           "class",
-          "primary"
+          "trunk"
         ]
       ],
       "layout": {
+        "line-cap": "butt",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(0, 0%, 0%)",
+        "line-color": {
+          "stops": [
+            [
+              11,
+              "hsl(44, 100%, 31%)"
+            ],
+            [
+              12,
+              "hsl(12, 62%, 48%)"
+            ]
+          ]
+        },
         "line-width": {
           "base": 1.2,
           "stops": [
+            [
+              9,
+              6
+            ],
+            [
+              11,
+              3.5
+            ],
             [
               12,
               5
@@ -10132,7 +10148,98 @@
           12.5,
           1
         ]
-      }
+      },
+      "minzoom": 11
+    },
+    {
+      "id": "Primary bridge outline",
+      "type": "line",
+      "metadata": {},
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        [
+          "==",
+          "brunnel",
+          "bridge"
+        ],
+        [
+          "in",
+          "class",
+          "primary"
+        ]
+      ],
+      "layout": {
+        "line-cap": "butt",
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": {
+          "stops": [
+            [
+              10.9,
+              "hsla(46, 100%, 96%, 0.47)"
+            ],
+            [
+              11,
+              "hsl(44, 100%, 31%)"
+            ]
+          ]
+        },
+        "line-width": {
+          "base": 1.2,
+          "stops": [
+            [
+              9,
+              6
+            ],
+            [
+              11,
+              3.5
+            ],
+            [
+              12,
+              5
+            ],
+            [
+              13,
+              5
+            ],
+            [
+              15,
+              10
+            ],
+            [
+              16,
+              18
+            ],
+            [
+              17,
+              21
+            ],
+            [
+              18,
+              27
+            ]
+          ]
+        },
+        "line-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
+          11.5,
+          0,
+          12.5,
+          1
+        ]
+      },
+      "minzoom": 9
     },
     {
       "id": "Highway bridge outline",
@@ -10159,11 +10266,23 @@
         ]
       ],
       "layout": {
+        "line-cap": "butt",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(0, 0%, 0%)",
+        "line-color": {
+          "stops": [
+            [
+              11,
+              "hsl(345, 49%, 53%)"
+            ],
+            [
+              12,
+              "hsl(339, 72%, 51%)"
+            ]
+          ]
+        },
         "line-width": {
           "base": 1.2,
           "stops": [
@@ -10194,7 +10313,8 @@
           12.5,
           1
         ]
-      }
+      },
+      "minzoom": 5
     },
     {
       "id": "Cycleway bridge",
@@ -10202,7 +10322,6 @@
       "metadata": {},
       "source": "openmaptiles",
       "source-layer": "transportation",
-      "minzoom": 13,
       "filter": [
         "all",
         [
@@ -10235,24 +10354,21 @@
         ]
       ],
       "layout": {
-        "visibility": "none"
+        "line-join": "round",
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(240, 100%, 50%)",
+        "line-color": "hsl(25, 36%, 34%)",
         "line-width": {
           "base": 1.2,
           "stops": [
             [
-              13,
-              0.8
+              12,
+              0.9099999999999999
             ],
             [
               14,
-              1
-            ],
-            [
-              15,
-              1.3
+              1.1700000000000002
             ],
             [
               17,
@@ -10260,7 +10376,7 @@
             ],
             [
               18,
-              1.6
+              1.6900000000000002
             ]
           ]
         },
@@ -10268,8 +10384,9 @@
           2,
           2
         ],
-        "line-opacity": 0.8
-      }
+        "line-opacity": 0.95
+      },
+      "minzoom": 13
     },
     {
       "id": "Bridleway bridge",
@@ -10277,7 +10394,6 @@
       "metadata": {},
       "source": "openmaptiles",
       "source-layer": "transportation",
-      "minzoom": 13,
       "filter": [
         "all",
         [
@@ -10315,24 +10431,21 @@
         ]
       ],
       "layout": {
-        "visibility": "none"
+        "line-join": "round",
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(120, 100%, 25%)",
+        "line-color": "hsl(25, 36%, 34%)",
         "line-width": {
           "base": 1.2,
           "stops": [
             [
-              13,
-              0.8
+              12,
+              0.9099999999999999
             ],
             [
               14,
-              1
-            ],
-            [
-              15,
-              1.3
+              1.1700000000000002
             ],
             [
               17,
@@ -10340,7 +10453,7 @@
             ],
             [
               18,
-              1.6
+              1.6900000000000002
             ]
           ]
         },
@@ -10348,8 +10461,9 @@
           2,
           2
         ],
-        "line-opacity": 0.8
-      }
+        "line-opacity": 0.95
+      },
+      "minzoom": 13
     },
     {
       "id": "Footway bridge",
@@ -10357,7 +10471,6 @@
       "metadata": {},
       "source": "openmaptiles",
       "source-layer": "transportation",
-      "minzoom": 13,
       "filter": [
         "all",
         [
@@ -10393,41 +10506,43 @@
         ]
       ],
       "layout": {
-        "visibility": "none"
+        "line-join": "round",
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(6, 93%, 71%)",
+        "line-color": "hsl(25, 36%, 34%)",
         "line-width": {
           "base": 1.2,
           "stops": [
             [
               13,
-              0.8
+              0.78
             ],
             [
               14,
-              1
+              1.3
             ],
             [
               15,
-              1.3
+              1.6900000000000002
             ],
             [
               17,
-              1.3
+              1.6900000000000002
             ],
             [
               18,
-              1.6
+              2.08
             ]
           ]
         },
         "line-dasharray": [
           2,
-          2
+          1
         ],
-        "line-opacity": 0.8
-      }
+        "line-opacity": 0.95
+      },
+      "minzoom": 13
     },
     {
       "id": "Highway link bridge",
@@ -10454,8 +10569,9 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": {
@@ -10475,25 +10591,42 @@
           "base": 1.2,
           "stops": [
             [
+              8,
+              0.7
+            ],
+            [
+              11,
+              0.9
+            ],
+            [
               12,
               3
             ],
             [
               14,
-              6
+              6.6
+            ],
+            [
+              16,
+              10.4
+            ],
+            [
+              17,
+              11.4
             ],
             [
               18,
-              15
+              14.4
             ],
             [
               19,
-              16
+              15.4
             ]
           ]
         },
         "line-opacity": 1
-      }
+      },
+      "minzoom": 8
     },
     {
       "id": "Service bridge under construction",
@@ -10516,8 +10649,7 @@
         ]
       ],
       "layout": {
-        "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": "hsl(40, 8%, 93%)",
@@ -10525,25 +10657,42 @@
           "base": 1.2,
           "stops": [
             [
-              15.5,
-              0
+              13,
+              0.9
+            ],
+            [
+              15,
+              2.3
+            ],
+            [
+              15,
+              0.5
             ],
             [
               16,
-              2
+              5.4
             ],
             [
-              20,
-              7.5
+              17,
+              6.9
+            ],
+            [
+              18,
+              9.4
+            ],
+            [
+              19,
+              10.4
             ]
           ]
         },
         "line-dasharray": [
-          2,
-          2
+          1,
+          1
         ],
         "line-opacity": 0.8
-      }
+      },
+      "minzoom": 12
     },
     {
       "id": "Service bridge",
@@ -10566,8 +10715,9 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": "hsl(40, 8%, 93%)",
@@ -10575,21 +10725,38 @@
           "base": 1.2,
           "stops": [
             [
-              15.5,
-              0
+              13,
+              0.9
+            ],
+            [
+              15,
+              2.3
+            ],
+            [
+              15,
+              0.5
             ],
             [
               16,
-              2
+              5.4
             ],
             [
-              20,
-              7.5
+              17,
+              6.9
+            ],
+            [
+              18,
+              9.4
+            ],
+            [
+              19,
+              10.4
             ]
           ]
         },
         "line-opacity": 0.8
-      }
+      },
+      "minzoom": 12
     },
     {
       "id": "Link bridge",
@@ -10660,8 +10827,9 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": "hsl(0, 0%, 83%)",
@@ -10675,7 +10843,7 @@
             "zoom"
           ],
           11,
-          0,
+          1,
           12,
           2,
           13,
@@ -10684,7 +10852,8 @@
           7
         ],
         "line-opacity": 0.8
-      }
+      },
+      "minzoom": 12
     },
     {
       "id": "Minor bridge under construction dash",
@@ -10706,10 +10875,22 @@
         ]
       ],
       "layout": {
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(40, 8%, 93%)",
+        "line-color": {
+          "base": 1,
+          "stops": [
+            [
+              12,
+              "hsl(0, 0%, 83%)"
+            ],
+            [
+              13,
+              "hsl(40, 8%, 93%)"
+            ]
+          ]
+        },
         "line-width": [
           "interpolate",
           [
@@ -10733,7 +10914,8 @@
           1,
           1
         ]
-      }
+      },
+      "minzoom": 12
     },
     {
       "id": "Minor bridge",
@@ -10755,30 +10937,60 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(40, 8%, 93%)",
+        "line-color": {
+          "base": 1,
+          "stops": [
+            [
+              12,
+              "hsl(0, 0%, 83%)"
+            ],
+            [
+              13,
+              "hsl(40, 8%, 93%)"
+            ]
+          ]
+        },
         "line-width": {
           "base": 1.2,
           "stops": [
             [
-              13.5,
-              0
+              12,
+              1
+            ],
+            [
+              13,
+              1.9
             ],
             [
               14,
-              2.5
+              3.8
             ],
             [
-              20,
-              18
+              15,
+              4.8
+            ],
+            [
+              16,
+              10.4
+            ],
+            [
+              17,
+              11.4
+            ],
+            [
+              18,
+              15.4
             ]
           ]
         },
         "line-opacity": 0.8
-      }
+      },
+      "minzoom": 12
     },
     {
       "id": "Tertiary bridge under construction",
@@ -10800,11 +11012,10 @@
         ]
       ],
       "layout": {
-        "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(0, 0%, 83%)",
+        "line-color": "hsl(0, 0%, 73%)",
         "line-width": [
           "interpolate",
           [
@@ -10815,7 +11026,7 @@
             "zoom"
           ],
           11,
-          0,
+          1,
           12,
           2,
           13,
@@ -10824,7 +11035,8 @@
           7
         ],
         "line-opacity": 0.8
-      }
+      },
+      "minzoom": 9
     },
     {
       "id": "Tertiary bridge under construction dash",
@@ -10846,10 +11058,22 @@
         ]
       ],
       "layout": {
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(40, 8%, 93%)",
+        "line-color": {
+          "base": 1,
+          "stops": [
+            [
+              10.5,
+              "hsl(0, 0%, 73%)"
+            ],
+            [
+              10.6,
+              "hsl(40, 8%, 93%)"
+            ]
+          ]
+        },
         "line-width": [
           "interpolate",
           [
@@ -10873,7 +11097,8 @@
           1
         ],
         "line-opacity": 0.8
-      }
+      },
+      "minzoom": 9
     },
     {
       "id": "Tertiary bridge",
@@ -10881,7 +11106,6 @@
       "metadata": {},
       "source": "openmaptiles",
       "source-layer": "transportation",
-      "minzoom": 11,
       "filter": [
         "all",
         [
@@ -10896,17 +11120,38 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(40, 8%, 93%)",
+        "line-color": {
+          "base": 1,
+          "stops": [
+            [
+              10.5,
+              "hsl(0, 0%, 73%)"
+            ],
+            [
+              10.6,
+              "hsl(40, 8%, 93%)"
+            ]
+          ]
+        },
         "line-width": {
           "base": 1.2,
           "stops": [
             [
+              9,
+              0.7
+            ],
+            [
+              10,
+              0.7
+            ],
+            [
               11,
-              2.3
+              1.9
             ],
             [
               12,
@@ -10914,15 +11159,15 @@
             ],
             [
               13,
-              4
+              3.9
             ],
             [
               14,
-              7.5
+              7.8
             ],
             [
               15,
-              8.5
+              8.8
             ],
             [
               16,
@@ -10939,7 +11184,8 @@
           ]
         },
         "line-opacity": 0.8
-      }
+      },
+      "minzoom": 9
     },
     {
       "id": "Secondary bridge under construction",
@@ -10961,11 +11207,25 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(63, 86%, 86%)",
+        "line-color": [
+          "interpolate",
+          [
+            "exponential",
+            1
+          ],
+          [
+            "zoom"
+          ],
+          10.5,
+          "hsl(0, 0%, 73%)",
+          10.6,
+          "hsl(63, 86%, 86%)"
+        ],
         "line-width": [
           "interpolate",
           [
@@ -10976,7 +11236,7 @@
             "zoom"
           ],
           11,
-          0,
+          1,
           12,
           2,
           13,
@@ -10985,7 +11245,8 @@
           7
         ],
         "line-opacity": 0.8
-      }
+      },
+      "minzoom": 8
     },
     {
       "id": "Secondary bridge under construction dash",
@@ -11007,7 +11268,7 @@
         ]
       ],
       "layout": {
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": "hsl(40, 8%, 93%)",
@@ -11034,7 +11295,8 @@
           1
         ],
         "line-opacity": 0.8
-      }
+      },
+      "minzoom": 8
     },
     {
       "id": "Secondary bridge [redge]",
@@ -11042,7 +11304,6 @@
       "metadata": {},
       "source": "openmaptiles",
       "source-layer": "transportation",
-      "minzoom": 7,
       "filter": [
         "all",
         [
@@ -11057,8 +11318,9 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": "hsl(30, 18%, 50%)",
@@ -11066,28 +11328,36 @@
           "base": 1.2,
           "stops": [
             [
-              7,
-              2.7
+              8,
+              1.8
+            ],
+            [
+              9,
+              1.9800000000000002
+            ],
+            [
+              10,
+              1.9800000000000002
             ],
             [
               11,
-              5.9399999999999995
+              5.22
             ],
             [
               12,
-              7.2
+              7.74
             ],
             [
               13,
-              6.84
+              7.74
             ],
             [
               14,
-              13.5
+              13.68
             ],
             [
               15,
-              15.3
+              15.48
             ],
             [
               16,
@@ -11116,7 +11386,8 @@
           12.5,
           0
         ]
-      }
+      },
+      "minzoom": 8
     },
     {
       "id": "Secondary bridge",
@@ -11124,7 +11395,6 @@
       "metadata": {},
       "source": "openmaptiles",
       "source-layer": "transportation",
-      "minzoom": 7,
       "filter": [
         "all",
         [
@@ -11139,37 +11409,58 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(63, 86%, 86%)",
+        "line-color": {
+          "base": 1,
+          "stops": [
+            [
+              10.5,
+              "hsl(0, 0%, 73%)"
+            ],
+            [
+              10.6,
+              "hsl(63, 86%, 86%)"
+            ]
+          ]
+        },
         "line-width": {
           "base": 1.2,
           "stops": [
             [
-              7,
-              1.5
+              8,
+              1
+            ],
+            [
+              9,
+              1.1
+            ],
+            [
+              10,
+              1.1
             ],
             [
               11,
-              3.3
+              2.9
             ],
             [
               12,
-              4
+              4.3
             ],
             [
               13,
-              3.8
+              4.3
             ],
             [
               14,
-              7.5
+              7.6
             ],
             [
               15,
-              8.5
+              8.6
             ],
             [
               16,
@@ -11186,7 +11477,8 @@
           ]
         },
         "line-opacity": 1
-      }
+      },
+      "minzoom": 8
     },
     {
       "id": "Primary bridge under construction",
@@ -11208,11 +11500,24 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(34, 94%, 82%)",
+        "line-color": {
+          "base": 1,
+          "stops": [
+            [
+              7,
+              "hsl(35, 83%, 73%)"
+            ],
+            [
+              11,
+              "hsl(34, 94%, 82%)"
+            ]
+          ]
+        },
         "line-width": [
           "interpolate",
           [
@@ -11223,7 +11528,7 @@
             "zoom"
           ],
           11,
-          0,
+          1,
           12,
           2,
           13,
@@ -11232,7 +11537,8 @@
           7
         ],
         "line-opacity": 0.8
-      }
+      },
+      "minzoom": 7
     },
     {
       "id": "Primary bridge under construction dash",
@@ -11254,7 +11560,7 @@
         ]
       ],
       "layout": {
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": "hsl(40, 8%, 93%)",
@@ -11281,7 +11587,8 @@
           1
         ],
         "line-opacity": 0.8
-      }
+      },
+      "minzoom": 7
     },
     {
       "id": "Primary bridge [redge]",
@@ -11303,8 +11610,9 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": "hsl(30, 18%, 50%)",
@@ -11313,11 +11621,23 @@
           "stops": [
             [
               7,
-              2.7
+              1.8
+            ],
+            [
+              8,
+              2.52
+            ],
+            [
+              9,
+              3.24
+            ],
+            [
+              10,
+              3.24
             ],
             [
               11,
-              5.9399999999999995
+              4.5
             ],
             [
               12,
@@ -11329,7 +11649,7 @@
             ],
             [
               15,
-              15.3
+              15.48
             ],
             [
               16,
@@ -11358,7 +11678,8 @@
           12.5,
           0
         ]
-      }
+      },
+      "minzoom": 7
     },
     {
       "id": "Primary bridge",
@@ -11380,21 +11701,46 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(34, 94%, 82%)",
+        "line-color": {
+          "base": 1,
+          "stops": [
+            [
+              7,
+              "hsl(35, 83%, 73%)"
+            ],
+            [
+              11,
+              "hsl(34, 94%, 82%)"
+            ]
+          ]
+        },
         "line-width": {
           "base": 1.2,
           "stops": [
             [
               7,
-              1.5
+              1
+            ],
+            [
+              8,
+              1.4
+            ],
+            [
+              9,
+              1.8
+            ],
+            [
+              10,
+              1.8
             ],
             [
               11,
-              3.3
+              2.5
             ],
             [
               12,
@@ -11406,7 +11752,7 @@
             ],
             [
               15,
-              8.5
+              8.6
             ],
             [
               16,
@@ -11423,7 +11769,8 @@
           ]
         },
         "line-opacity": 1
-      }
+      },
+      "minzoom": 7
     },
     {
       "id": "Trunk bridge under construction",
@@ -11445,11 +11792,24 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(14, 89%, 79%)",
+        "line-color": {
+          "base": 1,
+          "stops": [
+            [
+              6,
+              "hsl(15, 96%, 81%)"
+            ],
+            [
+              11,
+              "hsl(14, 89%, 79%)"
+            ]
+          ]
+        },
         "line-width": [
           "interpolate",
           [
@@ -11460,7 +11820,7 @@
             "zoom"
           ],
           11,
-          0,
+          1,
           12,
           2,
           13,
@@ -11469,7 +11829,8 @@
           7
         ],
         "line-opacity": 0.8
-      }
+      },
+      "minzoom": 7
     },
     {
       "id": "Trunk bridge under construction dash",
@@ -11492,8 +11853,7 @@
         ]
       ],
       "layout": {
-        "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": "hsl(40, 8%, 93%)",
@@ -11520,7 +11880,8 @@
           1
         ],
         "line-opacity": 0.8
-      }
+      },
+      "minzoom": 7
     },
     {
       "id": "Trunk bridge [redge]",
@@ -11542,8 +11903,9 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": "hsl(30, 18%, 50%)",
@@ -11551,20 +11913,44 @@
           "base": 1.2,
           "stops": [
             [
+              5,
+              0.54
+            ],
+            [
+              6,
+              0.9
+            ],
+            [
               7,
-              2.7
+              1.8
+            ],
+            [
+              8,
+              2.52
+            ],
+            [
+              9,
+              3.24
+            ],
+            [
+              10,
+              3.24
             ],
             [
               11,
-              8.1
+              4.5
             ],
             [
               12,
-              9
+              7.2
+            ],
+            [
+              13,
+              7.2
             ],
             [
               15,
-              15.3
+              15.48
             ],
             [
               16,
@@ -11593,7 +11979,8 @@
           12.5,
           0
         ]
-      }
+      },
+      "minzoom": 5
     },
     {
       "id": "Trunk bridge",
@@ -11615,29 +12002,66 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(14, 89%, 79%)",
+        "line-color": {
+          "base": 1,
+          "stops": [
+            [
+              5,
+              "hsl(15, 96%, 81%)"
+            ],
+            [
+              11,
+              "hsl(14, 89%, 79%)"
+            ]
+          ]
+        },
         "line-width": {
           "base": 1.2,
           "stops": [
             [
+              5,
+              0.3
+            ],
+            [
+              6,
+              0.5
+            ],
+            [
               7,
-              1.5
+              1
+            ],
+            [
+              8,
+              1.4
+            ],
+            [
+              9,
+              1.8
+            ],
+            [
+              10,
+              1.8
             ],
             [
               11,
-              4.5
+              2.5
             ],
             [
               12,
-              5
+              4
+            ],
+            [
+              13,
+              4
             ],
             [
               15,
-              8.5
+              8.6
             ],
             [
               16,
@@ -11654,7 +12078,8 @@
           ]
         },
         "line-opacity": 1
-      }
+      },
+      "minzoom": 5
     },
     {
       "id": "Highway bridge under construction",
@@ -11681,8 +12106,9 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": {
@@ -11719,7 +12145,8 @@
           7
         ],
         "line-opacity": 0.8
-      }
+      },
+      "minzoom": 5
     },
     {
       "id": "Highway bridge under construction dash",
@@ -11746,7 +12173,7 @@
         ]
       ],
       "layout": {
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": "hsl(40, 8%, 93%)",
@@ -11775,7 +12202,8 @@
           1
         ],
         "line-opacity": 0.8
-      }
+      },
+      "minzoom": 5
     },
     {
       "id": "Highway bridge",
@@ -11802,8 +12230,9 @@
         ]
       ],
       "layout": {
+        "line-cap": "round",
         "line-join": "round",
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": {
@@ -11823,7 +12252,7 @@
           "base": 1.2,
           "stops": [
             [
-              5,
+              4.9,
               0
             ],
             [
@@ -11837,7 +12266,8 @@
           ]
         },
         "line-opacity": 1
-      }
+      },
+      "minzoom": 5
     },
     {
       "id": "Major rail bridge",
@@ -11859,19 +12289,15 @@
         ]
       ],
       "layout": {
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": {
           "base": 1,
           "stops": [
             [
-              6,
-              "hsl(0, 0%, 58%)"
-            ],
-            [
-              12,
-              "hsl(0, 0%, 55%)"
+              8,
+              "hsl(0, 0%, 47%)"
             ],
             [
               14,
@@ -11884,7 +12310,11 @@
           "stops": [
             [
               8,
-              0.5
+              0.8
+            ],
+            [
+              11,
+              1.5
             ],
             [
               15,
@@ -11905,7 +12335,6 @@
       "metadata": {},
       "source": "openmaptiles",
       "source-layer": "transportation",
-      "minzoom": 8,
       "filter": [
         "all",
         [
@@ -11920,7 +12349,7 @@
         ]
       ],
       "layout": {
-        "visibility": "none"
+        "visibility": "visible"
       },
       "paint": {
         "line-color": {
@@ -11932,7 +12361,7 @@
             ],
             [
               10,
-              "hsl(0, 0%, 79%)"
+              "hsla(0, 0%, 95%, 0.44)"
             ]
           ]
         },
@@ -11958,7 +12387,8 @@
           2
         ],
         "line-opacity": 1
-      }
+      },
+      "minzoom": 8
     },
     {
       "id": "Cablecar",
