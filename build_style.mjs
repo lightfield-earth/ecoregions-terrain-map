@@ -211,18 +211,36 @@ for (const l0 of rest) {
   out.push(l);
 }
 
+// Bake each vector source's TileJSON into the style (tiles/zoom range/bounds/attribution). With a
+// `url`, MapLibre must fetch the TileJSON — which the tile server builds from the archive's header +
+// metadata on B2 — before it can request a single vector tile: ~300 ms on every cold page load.
+async function inlineTileJSON(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`TileJSON ${url}: HTTP ${res.status}`);
+  const tj = await res.json();
+  return { type: "vector", tiles: tj.tiles, minzoom: tj.minzoom, maxzoom: tj.maxzoom, bounds: tj.bounds,
+           ...(tj.attribution && { attribution: tj.attribution }) };
+}
+const vectorSources = {};
+for (const [id, src] of Object.entries({ ...base.sources, ecoregions: { type: "vector", url: ECO_TILEJSON } })) {
+  vectorSources[id] = src.type === "vector" && src.url ? await inlineTileJSON(src.url) : src;
+}
+
+// Hidden layers (visibility: none) draw nothing but are still parsed, validated and carried in every
+// style.json download; drop them from the built style (base_style.json keeps them for editing).
+const isHidden = (l) => l.layout?.visibility === "none";
+
 const style = {
   version: 8,
   name: "EPA Ecoregions of the Conterminous United States",
   metadata: { "lightfield:generated-by": "build_style.mjs" },
   glyphs: base.glyphs, sprite: base.sprite,
   sources: {
-    ...base.sources,
-    ecoregions: { type: "vector", url: ECO_TILEJSON },
+    ...vectorSources,
     hillshade:  { type: "raster", tiles: [HILL_TILES], tileSize: 512, minzoom: 0, maxzoom: 12,
                   attribution: "Hillshade: Copernicus GLO-30" },
   },
-  layers: [bg, ecoFill, hillshade, ecoOutline, ...out],
+  layers: [bg, ecoFill, hillshade, ecoOutline, ...out].filter((l) => !isHidden(l)),
 };
 
 fs.writeFileSync(HERE + "style.json", JSON.stringify(style, null, 2) + "\n");
